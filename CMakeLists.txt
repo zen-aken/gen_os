@@ -28,6 +28,11 @@ target_compile_options(kernel.elf PRIVATE
     >
 )
 
+# Includes
+target_include_directories(kernel.elf PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+)
+
 # Linker script
 set_target_properties(kernel.elf PROPERTIES
     LINK_FLAGS "-T ${CMAKE_SOURCE_DIR}/linker.ld -nostdlib -ffreestanding -no-pie"

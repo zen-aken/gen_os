@@ -418,7 +418,9 @@ class Multiboot2
 {
 private:
 public:
-    void check_magic(uintptr_t magic);
+    static void check_magic(uintptr_t magic);
+    static void parse_mbi(uintptr_t mbi);
+    static void multiboot2_init(uintptr_t magic, uintptr_t mbi);
 };
 
 #endif /*  ! ASM_FILE */
