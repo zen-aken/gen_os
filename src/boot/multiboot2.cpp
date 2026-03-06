@@ -6,7 +6,7 @@ size_t Multiboot2::total_memory_size = 0;
 multiboot_tag_framebuffer *Multiboot2::framebuffer_info = nullptr;
 multiboot_tag_mmap *Multiboot2::mmap_info = nullptr;
 
-void Multiboot2::check_magic(uintptr_t magic)
+void Multiboot2::checkMagic(uintptr_t magic)
 {
     if (magic != MULTIBOOT2_BOOTLOADER_MAGIC)
     {
@@ -14,7 +14,7 @@ void Multiboot2::check_magic(uintptr_t magic)
     }
 }
 
-void Multiboot2::parse_mbi(uintptr_t mbi)
+void Multiboot2::parseMBI(uintptr_t mbi)
 {
     multiboot_tag *tags = (multiboot_tag *)((uint8_t *)mbi + 8);
     while (tags->type != MULTIBOOT_TAG_TYPE_END)
@@ -40,6 +40,16 @@ void Multiboot2::parse_mbi(uintptr_t mbi)
 
 void Multiboot2::init(uintptr_t magic, uintptr_t mbi)
 {
-    check_magic(magic);
-    parse_mbi(mbi);
+    checkMagic(magic);
+    parseMBI(mbi);
+}
+
+size_t Multiboot2::getTotalMemorySize()
+{
+    return total_memory_size;
+}
+
+multiboot_tag_mmap *Multiboot2::getMmapInfo()
+{
+    return mmap_info;
 }

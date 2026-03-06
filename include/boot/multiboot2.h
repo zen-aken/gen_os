@@ -423,9 +423,12 @@ private:
     static multiboot_tag_mmap *mmap_info;
 
 public:
-    static void check_magic(uintptr_t magic);
-    static void parse_mbi(uintptr_t mbi);
+    static void checkMagic(uintptr_t magic);
+    static void parseMBI(uintptr_t mbi);
     static void init(uintptr_t magic, uintptr_t mbi);
+
+    static size_t getTotalMemorySize();
+    static multiboot_tag_mmap *getMmapInfo();
 };
 
 #endif /*  ! ASM_FILE */

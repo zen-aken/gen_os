@@ -8,6 +8,7 @@ enable_language(CXX ASM_NASM)
 set(SOURCES
     src/boot/boot.asm
     src/boot/multiboot2.cpp
+    src/mm/PhysicalMM.cpp
     src/kernel.cpp
     src/utils.cpp
 )
