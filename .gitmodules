@@ -1,0 +1,6 @@
+[submodule "include/limine-protocol"]
+	path = limine-protocol
+	url = https://github.com/limine-bootloader/limine-protocol.git
+[submodule "limine-protocol"]
+	path = limine-protocol
+	url = https://github.com/limine-bootloader/limine-protocol.git
