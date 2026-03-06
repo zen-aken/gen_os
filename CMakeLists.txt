@@ -7,7 +7,9 @@ enable_language(CXX ASM_NASM)
 # Source file
 set(SOURCES
     src/boot/boot.asm
-    src/kernel/kernel.cpp
+    src/boot/multiboot2.cpp
+    src/kernel.cpp
+    src/utils.cpp
 )
 
 # Kernel binary

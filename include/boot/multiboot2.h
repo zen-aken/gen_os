@@ -23,6 +23,7 @@
 #define MULTIBOOT_HEADER 1
 
 #include <stdint.h>
+#include <stddef.h>
 
 /*  How many bytes from the start of the file we search for the header. */
 #define MULTIBOOT_SEARCH 32768
@@ -417,10 +418,14 @@ struct multiboot_tag_load_base_addr
 class Multiboot2
 {
 private:
+    static size_t total_memory_size;
+    static multiboot_tag_framebuffer *framebuffer_info;
+    static multiboot_tag_mmap *mmap_info;
+
 public:
     static void check_magic(uintptr_t magic);
     static void parse_mbi(uintptr_t mbi);
-    static void multiboot2_init(uintptr_t magic, uintptr_t mbi);
+    static void init(uintptr_t magic, uintptr_t mbi);
 };
 
 #endif /*  ! ASM_FILE */
