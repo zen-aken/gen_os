@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <limine.h>
 #include <mm/PhysicalMM.h>
+#include <drivers/framebuffer.h>
 
 __attribute__((used, section(".limine_requests"))) static volatile limine_framebuffer_request fb_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST_ID,
@@ -17,6 +18,7 @@ __attribute__((used, section(".limine_requests"))) static volatile limine_memmap
 extern "C" void kernel_main(void)
 {
     PhysicalMM::init(memmap_request.response);
+    Framebuffer::init(fb_request.response);
     while (1)
     {
         asm volatile("hlt");

@@ -6,6 +6,7 @@ enable_language(CXX ASM_NASM)
 set(SOURCES
     src/boot/boot.asm
     src/mm/PhysicalMM.cpp
+    src/drivers/framebuffer/framebuffer.cpp
     src/kernel.cpp
 )
 
@@ -62,9 +63,10 @@ add_custom_command(
 file(WRITE ${CMAKE_SOURCE_DIR}/iso/boot/limine/limine.conf
 "timeout=0
 
-/Limine Gen-OS
+/Gen-OS
     protocol: limine
     path: boot():/boot/kernel.elf
+    resolution: 1280x720x32
 ")
 
 add_custom_command(
