@@ -65,3 +65,8 @@ void Framebuffer::fbPrint(const char *c, Colors color)
         c++;
     }
 }
+
+limine_framebuffer_response *Framebuffer::getFB()
+{
+    return fb_response;
+}

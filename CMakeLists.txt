@@ -6,6 +6,7 @@ enable_language(CXX ASM_NASM)
 set(SOURCES
     src/boot/boot.asm
     src/mm/PhysicalMM.cpp
+    src/mm/VirtualMM.cpp
     src/drivers/framebuffer/framebuffer.cpp
     src/utils/io.cpp
     src/utils/string.cpp
@@ -87,6 +88,6 @@ add_custom_command(
 
 add_custom_target(iso DEPENDS ${CMAKE_SOURCE_DIR}/gen-os.iso)
 add_custom_target(run
-    COMMAND qemu-system-x86_64 -M q35 -cdrom ${CMAKE_SOURCE_DIR}/gen-os.iso -boot d -m 2G
+    COMMAND qemu-system-x86_64 -M q35 -cdrom ${CMAKE_SOURCE_DIR}/gen-os.iso -boot d -m 2G  -M accel=tcg,smm=off -d int -no-reboot -no-shutdown
     DEPENDS ${CMAKE_SOURCE_DIR}/gen-os.iso
 )

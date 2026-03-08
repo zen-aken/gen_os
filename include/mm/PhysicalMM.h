@@ -6,10 +6,12 @@
 class PhysicalMM
 {
 public:
+    static limine_memmap_response *_memmap;
     static void init(limine_memmap_response *memmap);
     static uintptr_t allocFreeMem();
     static void freeMem(size_t index);
     static bool isPageFree(size_t index);
+    static limine_memmap_response *getMemmap();
 
 private:
     static uintptr_t allocMem(size_t index);

@@ -1,3 +1,5 @@
+#include <drivers/framebuffer.h>
+
 enum class LogType
 {
     INFO,

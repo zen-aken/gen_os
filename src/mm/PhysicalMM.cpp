@@ -4,6 +4,7 @@
 limine_memmap_entry *PhysicalMM::available_memory_chunk = 0;
 uintptr_t *PhysicalMM::pages = 0;
 uint32_t PhysicalMM::page_count = 0;
+limine_memmap_response *PhysicalMM::_memmap = 0;
 
 bool PhysicalMM::isPageFree(size_t index)
 {
@@ -71,6 +72,7 @@ void PhysicalMM::setPageSize()
 
 void PhysicalMM::init(limine_memmap_response *memmap)
 {
+    _memmap = memmap;
     setBiggestUsableMemoryChunk(memmap);
     setPageSize();
 
@@ -89,4 +91,9 @@ void PhysicalMM::init(limine_memmap_response *memmap)
     {
         allocMem(i);
     }
+}
+
+limine_memmap_response *PhysicalMM::getMemmap()
+{
+    return _memmap;
 }
