@@ -23,9 +23,10 @@ extern "C" void kernel_main(void)
     Framebuffer::init(fb_request.response);
     PhysicalMM::init(memmap_request.response);
     print("This is a INT but as a string: %s \n", "it's working");
-    print("This is a HEX but as a string: %d \n", 2025);
+    print("This is a DEC but as a string: %d \n", 2025);
     print("This is a HEX but as a string: %x \n", 0x1000);
     print("This is a HEX but as a string: %x \n", 0x2000);
+    log(LogType::INFO, "Kernel", "Init succes");
     while (1)
     {
         asm volatile("hlt");
