@@ -7,6 +7,7 @@ set(SOURCES
     src/boot/boot.asm
     src/mm/PhysicalMM.cpp
     src/drivers/framebuffer/framebuffer.cpp
+    src/utils/io.cpp
     src/utils/string.cpp
     src/utils.cpp
     src/kernel.cpp

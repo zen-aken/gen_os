@@ -2,8 +2,7 @@
 #include <limine.h>
 #include <mm/PhysicalMM.h>
 #include <drivers/framebuffer.h>
-#include <utils.h>
-#include <utils/string.h>
+#include <utils/io.h>
 
 __attribute__((used, section(".limine_requests"))) static volatile limine_framebuffer_request fb_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST_ID,
@@ -23,12 +22,10 @@ extern "C" void kernel_main(void)
 {
     Framebuffer::init(fb_request.response);
     PhysicalMM::init(memmap_request.response);
-    newLine();
-    print("This is a NUMBER but as a string: ", Colors::White);
-    print(int_to_str(2019), Colors::White);
-    newLine();
-    print("This is a HEX but as a string: ", Colors::White);
-    print(hex_to_str(0x10000), Colors::White);
+    print("This is a INT but as a string: %s \n", "it's working");
+    print("This is a HEX but as a string: %d \n", 2025);
+    print("This is a HEX but as a string: %x \n", 0x1000);
+    print("This is a HEX but as a string: %x \n", 0x2000);
     while (1)
     {
         asm volatile("hlt");

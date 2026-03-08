@@ -27,5 +27,5 @@ private:
 public:
     static void init(limine_framebuffer_response *_fb_response);
     static void putChar(const char c, Colors color);
-    static void print(const char *c, Colors color = Colors::White);
+    static void fbPrint(const char *c, Colors color = Colors::White);
 };

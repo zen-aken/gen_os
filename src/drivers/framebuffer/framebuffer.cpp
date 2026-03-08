@@ -3,6 +3,7 @@
 #define FONT8x16_IMPLEMENTATION
 #include <drivers/fonts/font8x16.h>
 #include <stddef.h>
+#include <utils/io.h>
 
 limine_framebuffer_response *Framebuffer::fb_response = 0;
 uint64_t Framebuffer::monitor_count = 0;
@@ -20,7 +21,7 @@ void Framebuffer::init(limine_framebuffer_response *_fb_response)
 {
     fb_response = _fb_response;
     setMonitorCount();
-    print("[ Framebuffer ] Framebuffer initialization successful");
+    print("Framebuffer ==> Framebuffer initialization succesfull\n");
 }
 
 void Framebuffer::putPixel(uint32_t x, uint32_t y, Colors color)
@@ -56,7 +57,7 @@ void Framebuffer::putChar(const char c, Colors color)
     }
 }
 
-void Framebuffer::print(const char *c, Colors color)
+void Framebuffer::fbPrint(const char *c, Colors color)
 {
     while (*c)
     {
