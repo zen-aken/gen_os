@@ -20,22 +20,29 @@ void Framebuffer::init(limine_framebuffer_response *_fb_response)
 {
     fb_response = _fb_response;
     setMonitorCount();
-    print("Hi from kernel with framebuffer");
+    print("[ Framebuffer ] Framebuffer initialization successful");
 }
 
-void Framebuffer::putPixel(uint32_t x, uint32_t y, uint32_t color)
+void Framebuffer::putPixel(uint32_t x, uint32_t y, Colors color)
 {
     uint32_t *pixel = (uint32_t *)((uint8_t *)fb_response->framebuffers[0]->address + y * fb_response->framebuffers[0]->pitch + x * 4);
-    *pixel = color;
+    *pixel = static_cast<uint32_t>(color);
 }
 
-void Framebuffer::putChar(uint8_t c, uint32_t color)
+void Framebuffer::putChar(const char c, Colors color)
 {
+    if (c == '\n')
+    {
+        cursor_x = 0;
+        cursor_y += 20;
+        return;
+    }
+
     for (uint32_t row = 0; row < 16; row++)
     {
         for (uint32_t col = 0; col < 8; col++)
         {
-            if (font8x16[c][row] & (1 << (7 - col)))
+            if (font8x16[(uint8_t)c][row] & (1 << (7 - col)))
             {
                 putPixel(cursor_x + col, cursor_y + row, color);
             }
@@ -49,7 +56,7 @@ void Framebuffer::putChar(uint8_t c, uint32_t color)
     }
 }
 
-void Framebuffer::print(char *c, uint32_t color)
+void Framebuffer::print(const char *c, Colors color)
 {
     while (*c)
     {

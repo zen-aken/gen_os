@@ -1,4 +1,5 @@
 #include <mm/PhysicalMM.h>
+#include <utils.h>
 
 limine_memmap_entry *PhysicalMM::available_memory_chunk = 0;
 uintptr_t *PhysicalMM::pages = 0;
@@ -34,7 +35,7 @@ uintptr_t PhysicalMM::allocFreeMem()
             return allocMem(index);
         }
     }
-    return NULL; // out of memory
+    return 0; // out of memory
 }
 
 uintptr_t PhysicalMM::allocMem(size_t index)

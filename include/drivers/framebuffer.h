@@ -1,4 +1,15 @@
+#pragma once
 #include <limine.h>
+
+enum class Colors : uint32_t
+{
+    White = 0x00FFFFFF,
+    Red = 0x00FF0000,
+    Green = 0x0000FF00,
+    Blue = 0x000000FF,
+    Yellow = 0x00FFFF00,
+    Black = 0x00000000,
+};
 
 class Framebuffer
 {
@@ -11,10 +22,10 @@ private:
     static uint32_t cursor_y;
 
     static void setMonitorCount();
-    static void putPixel(uint32_t x, uint32_t y, uint32_t color);
-    static void putChar(uint8_t c, uint32_t color);
+    static void putPixel(uint32_t x, uint32_t y, Colors color);
 
 public:
     static void init(limine_framebuffer_response *_fb_response);
-    static void print(char *c, uint32_t color = 0x00FFFFFF);
+    static void putChar(const char c, Colors color);
+    static void print(const char *c, Colors color = Colors::White);
 };
