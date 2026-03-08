@@ -18,9 +18,11 @@ uint64_t *VirtualMM::PT;
 void VirtualMM::init(limine_hhdm_response *HHDM)
 {
     offset = HHDM->offset;
+    print("[ INFO ] VMM ==> VMM offset: %x\n", offset);
     initPML4();
     mapSystem();
     asm volatile("mov %0, %%cr3" ::"r"((uintptr_t)PML4 - offset));
+    log(LogType::INFO, "VMM", "VMM initialized");
 }
 
 void VirtualMM::initPML4()
@@ -31,6 +33,7 @@ void VirtualMM::initPML4()
     {
         PML4[i] = 0;
     }
+    log(LogType::INFO, "VMM", "PML4 initialized");
 }
 
 uintptr_t VirtualMM::PhystoVirt(uintptr_t addr)
@@ -94,6 +97,7 @@ void VirtualMM::mapPage(uint64_t virt, uint64_t phys, uint64_t flags)
 
 void VirtualMM::mapSystem()
 {
+    log(LogType::INFO, "VMM", "Maping kernel to memory");
     limine_memmap_response *memory = PhysicalMM::getMemmap();
     for (size_t i = 0; i < memory->entry_count; i++)
     {
@@ -113,4 +117,5 @@ void VirtualMM::mapSystem()
     {
         mapPage(addr, VirttoPhys(addr), 0x3);
     }
+    log(LogType::INFO, "VMM", "Maping completed");
 }

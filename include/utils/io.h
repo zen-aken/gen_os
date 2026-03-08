@@ -1,3 +1,4 @@
+#pragma once
 #include <drivers/framebuffer.h>
 
 enum class LogType
