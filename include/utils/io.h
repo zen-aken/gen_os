@@ -18,4 +18,4 @@ struct Log
 };
 
 void print(const char *input, ...);
-void log(LogType type, const char *tag, const char *message);
+void log(LogType type, bool is_log, const char *tag, const char *message, ...);

@@ -11,9 +11,6 @@
 
 uint64_t VirtualMM::offset;
 uint64_t *VirtualMM::PML4;
-uint64_t *VirtualMM::PDPT;
-uint64_t *VirtualMM::PD;
-uint64_t *VirtualMM::PT;
 
 void VirtualMM::init(limine_hhdm_response *HHDM)
 {
@@ -22,7 +19,7 @@ void VirtualMM::init(limine_hhdm_response *HHDM)
     initPML4();
     mapSystem();
     asm volatile("mov %0, %%cr3" ::"r"((uintptr_t)PML4 - offset));
-    log(LogType::INFO, "VMM", "VMM initialized");
+    log(LogType::INFO, false, "VMM", "VMM initialized\n");
 }
 
 void VirtualMM::initPML4()
@@ -33,7 +30,7 @@ void VirtualMM::initPML4()
     {
         PML4[i] = 0;
     }
-    log(LogType::INFO, "VMM", "PML4 initialized");
+    log(LogType::INFO, false, "VMM", "PML4 initialized\n");
 }
 
 uintptr_t VirtualMM::PhystoVirt(uintptr_t addr)
@@ -46,9 +43,28 @@ uintptr_t VirtualMM::VirttoPhys(uintptr_t virt)
     asm volatile("mov %%cr3, %0" : "=r"(cr3));
 
     uint64_t *pml4 = (uint64_t *)PhystoVirt(cr3 & ~0xFFF);
+    if (!(pml4[PML4_INDEX(virt)] & 1))
+    {
+        return 0;
+    }
+
     uint64_t *pdpt = (uint64_t *)PhystoVirt(pml4[PML4_INDEX(virt)] & ~0xFFF);
+    if (!(pdpt[PDPT_INDEX(virt)] & 1))
+    {
+        return 0;
+    }
+
     uint64_t *pd = (uint64_t *)PhystoVirt(pdpt[PDPT_INDEX(virt)] & ~0xFFF);
+    if (!(pd[PD_INDEX(virt)] & 1))
+    {
+        return 0;
+    }
+
     uint64_t *pt = (uint64_t *)PhystoVirt(pd[PD_INDEX(virt)] & ~0xFFF);
+    if (!(pt[PT_INDEX(virt)] & 1))
+    {
+        return 0;
+    }
 
     return (pt[PT_INDEX(virt)] & ~0xFFF) + (virt & 0xFFF);
 }
@@ -72,7 +88,7 @@ void VirtualMM::mapPage(uint64_t virt, uint64_t phys, uint64_t flags)
         resetTable(pdpt);
         PML4[PML4_INDEX(virt)] = pdpt_phys | standard_flags;
     }
-    PDPT = (uint64_t *)PhystoVirt(PML4[PML4_INDEX(virt)] & ~0xFFF);
+    uint64_t *PDPT = (uint64_t *)PhystoVirt(PML4[PML4_INDEX(virt)] & ~0xFFF);
 
     if (!(PDPT[PDPT_INDEX(virt)] & 1))
     {
@@ -81,7 +97,7 @@ void VirtualMM::mapPage(uint64_t virt, uint64_t phys, uint64_t flags)
         resetTable(pd);
         PDPT[PDPT_INDEX(virt)] = pd_phys | standard_flags;
     }
-    PD = (uint64_t *)PhystoVirt(PDPT[PDPT_INDEX(virt)] & ~0xFFF);
+    uint64_t *PD = (uint64_t *)PhystoVirt(PDPT[PDPT_INDEX(virt)] & ~0xFFF);
 
     if (!(PD[PD_INDEX(virt)] & 1))
     {
@@ -90,14 +106,14 @@ void VirtualMM::mapPage(uint64_t virt, uint64_t phys, uint64_t flags)
         resetTable(pt);
         PD[PD_INDEX(virt)] = pt_phys | standard_flags;
     }
-    PT = (uint64_t *)PhystoVirt(PD[PD_INDEX(virt)] & ~0xFFF);
+    uint64_t *PT = (uint64_t *)PhystoVirt(PD[PD_INDEX(virt)] & ~0xFFF);
 
     PT[PT_INDEX(virt)] = phys | flags;
 }
 
 void VirtualMM::mapSystem()
 {
-    log(LogType::INFO, "VMM", "Maping kernel to memory");
+    log(LogType::INFO, false, "VMM", "Maping kernel to memory\n");
     limine_memmap_response *memory = PhysicalMM::getMemmap();
     for (size_t i = 0; i < memory->entry_count; i++)
     {
@@ -117,5 +133,5 @@ void VirtualMM::mapSystem()
     {
         mapPage(addr, VirttoPhys(addr), 0x3);
     }
-    log(LogType::INFO, "VMM", "Maping completed");
+    log(LogType::INFO, false, "VMM", "Maping completed\n");
 }

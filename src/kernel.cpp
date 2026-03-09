@@ -29,7 +29,7 @@ extern "C" void kernel_main(void)
     Framebuffer::init(fb_request.response);
     PhysicalMM::init(memmap_request.response);
     VirtualMM::init(hhdm_request.response);
-    log(LogType::INFO, "Kernel", "Init succes");
+    log(LogType::INFO, false, "Kernel", "Init succes");
     while (1)
     {
         asm volatile("hlt");

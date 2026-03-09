@@ -52,7 +52,7 @@ void PhysicalMM::setBiggestUsableMemoryChunk(limine_memmap_response *memmap)
 {
     limine_memmap_entry **entry = memmap->entries;
     limine_memmap_entry *currentChunk = entry[0];
-    log(LogType::INFO, "PMM", "Usable memory:");
+    log(LogType::INFO, false, "PMM", "Usable memory:\n");
     for (size_t index = 0; index < memmap->entry_count; index++)
     {
         if (entry[index]->type == LIMINE_MEMMAP_USABLE)
@@ -66,7 +66,7 @@ void PhysicalMM::setBiggestUsableMemoryChunk(limine_memmap_response *memmap)
     }
     if (currentChunk->type != LIMINE_MEMMAP_USABLE)
     {
-        log(LogType::ERR, "PMM", "No memory chunk available!");
+        log(LogType::ERR, false, "PMM", "No memory chunk available!");
         return;
     }
     available_memory_chunk = currentChunk;
@@ -92,7 +92,7 @@ void PhysicalMM::init(limine_memmap_response *memmap)
     {
         pages[i] = 0;
     }
-    log(LogType::INFO, "PMM", "Page's reseted");
+    log(LogType::INFO, false, "PMM", "Page's reseted\n");
 
     // map bitmap
     size_t bitmap_pages = (page_count / 8 + 4095) / 4096;

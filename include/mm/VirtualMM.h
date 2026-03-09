@@ -6,9 +6,6 @@ class VirtualMM
 private:
     static uint64_t offset;
     static uint64_t *PML4;
-    static uint64_t *PDPT;
-    static uint64_t *PD;
-    static uint64_t *PT;
 
     static uintptr_t PhystoVirt(uintptr_t addr);
     static uintptr_t VirttoPhys(uintptr_t addr);

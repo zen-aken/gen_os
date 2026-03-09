@@ -91,7 +91,7 @@ void parse_level_prefix(Log *log)
  * @param tag   module or component name (e.g. "PMM", "Framebuffer")
  * @param message  message to display
  */
-void log(LogType type, const char *tag, const char *message)
+void log(LogType type, bool is_log, const char *tag, const char *message, ...)
 {
     // TODO: Add a buffer that write log to a file
     Log log;
@@ -99,5 +99,16 @@ void log(LogType type, const char *tag, const char *message)
     log.tag = tag;
     log.message = message;
     parse_level_prefix(&log);
-    print("%c[ %s ] %s ==> %s \n", log.color, log.type_str, log.tag, log.message);
+    print("%c[ %s ] %s ==> ", log.color, log.type_str, log.tag);
+    va_list args;
+    va_start(args, message);
+    print(message, args);
+    va_end(args);
+
+    // for log
+    void (*log_or_print)(const char *, ...);
+    if (is_log)
+    {
+        // write to log manager
+    }
 }
