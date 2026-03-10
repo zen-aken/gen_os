@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <limine.h>
+#include <x86_64/interrupts/idt.h>
 #include <mm/PhysicalMM.h>
 #include <mm/VirtualMM.h>
 #include <drivers/framebuffer.h>
@@ -29,7 +30,8 @@ extern "C" void kernel_main(void)
     Framebuffer::init(fb_request.response);
     PhysicalMM::init(memmap_request.response);
     VirtualMM::init(hhdm_request.response);
-    log(LogType::INFO, false, "Kernel", "Init succes");
+    idt_init();
+    log(LogType::INFO, false, "Kernel", "initialization succesfull\n");
     while (1)
     {
         asm volatile("hlt");

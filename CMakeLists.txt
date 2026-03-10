@@ -4,7 +4,9 @@ project(gen-os)
 enable_language(CXX ASM_NASM)
 
 set(SOURCES
-    src/boot/boot.asm
+    src/x86_64/boot/boot.asm
+    src/x86_64/interrupts/idt.cpp
+    src/x86_64/interrupts/exception.cpp
     src/mm/PhysicalMM.cpp
     src/mm/VirtualMM.cpp
     src/drivers/framebuffer/framebuffer.cpp
@@ -88,6 +90,6 @@ add_custom_command(
 
 add_custom_target(iso DEPENDS ${CMAKE_SOURCE_DIR}/gen-os.iso)
 add_custom_target(run
-    COMMAND qemu-system-x86_64 -M q35 -cdrom ${CMAKE_SOURCE_DIR}/gen-os.iso -boot d -m 2G  -M accel=tcg,smm=off -d int -no-reboot -no-shutdown
+    COMMAND qemu-system-x86_64 -M q35 -cdrom ${CMAKE_SOURCE_DIR}/gen-os.iso -boot d -m 2G -M accel=tcg,smm=off -d int 
     DEPENDS ${CMAKE_SOURCE_DIR}/gen-os.iso
 )

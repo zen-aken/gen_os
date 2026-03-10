@@ -57,7 +57,7 @@ void print(const char *input, ...)
         }
         else
         {
-            Framebuffer::putChar(*input, Colors::White);
+            Framebuffer::putChar(*input, color);
             input++;
         }
     }
@@ -106,7 +106,7 @@ void log(LogType type, bool is_log, const char *tag, const char *message, ...)
     va_end(args);
 
     // for log
-    void (*log_or_print)(const char *, ...);
+    // void (*log_or_print)(const char *, ...);
     if (is_log)
     {
         // write to log manager

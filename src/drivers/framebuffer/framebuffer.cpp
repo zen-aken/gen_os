@@ -21,7 +21,7 @@ void Framebuffer::init(limine_framebuffer_response *_fb_response)
 {
     fb_response = _fb_response;
     setMonitorCount();
-    print("Framebuffer ==> Framebuffer initialization succesfull\n");
+    log(LogType::INFO, false, "Framebuffer", "Framebuffer initialized\n");
 }
 
 void Framebuffer::putPixel(uint32_t x, uint32_t y, Colors color)
