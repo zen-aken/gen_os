@@ -7,7 +7,7 @@ char *int_to_str(int number)
     bool isNumberNegative = false;
     if (number == 0)
     {
-        return "0";
+        return (char *)"0";
     }
 
     if (number < 0)
