@@ -135,3 +135,8 @@ void VirtualMM::mapSystem()
     }
     log(LogType::INFO, false, "VMM", "Maping completed\n");
 }
+
+uint64_t VirtualMM::getOffset()
+{
+    return offset;
+}

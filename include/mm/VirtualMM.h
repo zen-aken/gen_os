@@ -15,4 +15,5 @@ public:
     static void init(limine_hhdm_response *_HHDM);
     static void initPML4();
     static void mapPage(uint64_t virt, uint64_t phsy, uint64_t flags);
+    static uint64_t getOffset();
 };

@@ -17,5 +17,9 @@ struct Log
     const char *message;
 };
 
+void outb(uint16_t port, uint8_t value);
+uint8_t inb(uint16_t port);
+void io_wait();
+
 void print(const char *input, ...);
 void log(LogType type, bool is_log, const char *tag, const char *message, ...);

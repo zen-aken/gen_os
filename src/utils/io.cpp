@@ -5,6 +5,37 @@
 #include <utils/io.h>
 
 /**
+ * @brief Sends a byte to the specified I/O port
+ * @param port Target I/O port (16-bit)
+ * @param value Byte to send
+ */
+void outb(uint16_t port, uint8_t value)
+{
+    asm volatile("outb %0, %1" : : "a"(value), "Nd"(port));
+}
+
+/**
+ * @brief Reads a byte from the specified I/O port
+ * @param port Source I/O port (16-bit)
+ * @return Byte read from port
+ */
+uint8_t inb(uint16_t port)
+{
+    uint8_t value;
+    asm volatile("inb %1, %0" : "=a"(value) : "Nd"(port));
+    return value;
+}
+
+/**
+ * @brief Small delay for legacy hardware synchronization
+ * Writes to unused port 0x80 to waste ~1-4 microseconds
+ */
+void io_wait()
+{
+    outb(0x80, 0);
+}
+
+/**
  * @brief Formatted print to framebuffer
  *
  * Format specifiers:
